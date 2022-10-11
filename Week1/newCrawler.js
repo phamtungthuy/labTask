@@ -1,6 +1,7 @@
 const rp = require("request-promise");
 const cheerio = require('cheerio');
 const fs = require('fs');
+const { AsyncLocalStorage } = require("async_hooks");
 
 const URL = `https://jprp.vn/index.php/JPRP/issue/archive?fbclid=IwAR0wsHq3drGMoG8JsakKwAcvChfEvgNLUAKrN9YzN3-fxzXEk4_43JN0hYU`;
 
@@ -56,6 +57,7 @@ async function getContentArticle(link) {
     }
     console.log(newObj);
     arr.push(newObj);
+    fs.writeFileSync('data.JSON', JSON.stringify(arr));
 }
 
 async function crawler() {
@@ -65,17 +67,10 @@ async function crawler() {
             return cheerio.load(body);
         }
     }, "div.issue-summary div.media-body a.title");
-    var promise = new Promise(
-        function(resolve, reject) {
-            resolve();
-        }
-    )
+
     for(var i = 0; i < optionList.length;) {
         handle(optionList[i++]);
     }
-    
-    fs.writeFileSync('data.JSON', JSON.stringify(arr));
 }
 
 crawler();
-
