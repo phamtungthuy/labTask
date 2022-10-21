@@ -3,7 +3,7 @@ const cheerio = require('cheerio');
 const fs = require('fs');
 const { AsyncLocalStorage } = require("async_hooks");
 
-const URL = `https://jprp.vn/index.php/JPRP/issue/archive?fbclid=IwAR0wsHq3drGMoG8JsakKwAcvChfEvgNLUAKrN9YzN3-fxzXEk4_43JN0hYU`;
+const URL = `https://jprp.vn/index.php/JPRP/issue/archive`;
 
 var arr = [];
 
@@ -25,21 +25,21 @@ async function getHref(link, htmlSelector) {
         })
     });
     return list;
-    
+
 };
 
 async function handle(link) {
     var articleList = await getHref(link, "div.media-list div.article-summary div.media-body div.row div.col-md-10 a");
-    for(article of articleList) {
+    for (article of articleList) {
         getContentArticle(article);
     }
 
 }
 
 async function getContentArticle(link) {
-    try{
+    try {
         var $ = await rp(link);
-    } catch(error) {
+    } catch (error) {
         console.log(error);
         return error;
     }
@@ -68,9 +68,13 @@ async function crawler() {
         }
     }, "div.issue-summary div.media-body a.title");
 
-    for(var i = 0; i < optionList.length;) {
-        handle(optionList[i++]);
+    for (var i = 0; i < optionList.length;) {
+        var articleList = await getHref(optionList[i++], "div.media-list div.article-summary div.media-body div.row div.col-md-10 a");
+        for (var j = 0; j < articleList.length;) {
+            getContentArticle(articleList[j++]);
+        }
     }
+    console.log("helldasdasd\nsaadasda\nadasdasdasd\no");
 }
 
 crawler();

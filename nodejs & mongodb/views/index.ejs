@@ -1,0 +1,45 @@
+<link rel="stylesheet" href="/public/bootstrap.css" />
+<div class="container" style="margin-top: 150px;">
+    <div class="row">
+        <div class="col-md-8">
+            <form action="" method="post" onsubmit="return crawlPage(this)">
+                <div class="form-group">
+                    <label for="">Enter URL</label>
+                    <input type="url" name="url" class="form-control" required>
+                </div>
+                <input type="submit" name="submit" value="Crawl" class="btn btn-info">
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    function crawlPage(form) {
+        var ajax = new XMLHttpRequest();
+        ajax.open("POST", "/crawl-page", true);
+
+        ajax.onreadystatechange = function() {
+            if (this.readyState == 4) {
+                if (this.status == 200) {
+                    console.log(this.responseText);
+                    var data = JSON.parse(this.responseText);
+                    console.log(data);
+                }
+            }
+        }
+
+        var formData = new FormData(form);
+        ajax.send(formData);
+
+        return false;
+    }
+</script>
+
+<script src="/public/jquery-3.3.1.min.js"></script>
+<script src="/public/bootstrap.js"></script>
+
+<style>
+    body {
+        background: linear-gradient(0deg, #00fff3, #00fff3);
+    }
+</style>
