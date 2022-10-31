@@ -8,7 +8,26 @@
         Dowload Data as Excel File
     </a>
 </div>
-<ul class="data-list">
+<table class="full text-center">
+    <tr>
+        <th>Article number</th>
+        <th>Title</th>
+        <th>Authors</th>
+        <th>Published</th>
+        <th>Collection</th>
+    </tr>
+    {{#each data}}
+    <tr>
+        <td>{{this.id}}</td>
+        <td>{{this.title}}</td>
+        <td>{{this.authors}}</td>
+        <td>{{this.releaseDate}}</td>
+        <td>{{this.collection}}</td>
+    </tr>
+    {{/each}}
+</table>
+{{!-- <ul class="data-list">
+
     {{#each data}}
     <li class="data-item">
         <p class="data-item__id">Article number: {{this.id}}</p>
@@ -20,4 +39,4 @@
     {{else}}
     <li><p>Không có thông tin</p></li>
     {{/each}}
-</ul>
+</ul> --}}

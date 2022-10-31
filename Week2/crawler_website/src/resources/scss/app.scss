@@ -2,6 +2,7 @@
     list-style: none;
     padding: 0;
 }
+
 p {
     margin: 8px 0px;
 }
@@ -15,7 +16,7 @@ p {
     line-height: 50px;
     text-align: center;
     font-size: 20px;
-    background-color:#0066ff;
+    background-color: #0066ff;
     color: white;
     margin-top: 16px;
     text-decoration: none;
@@ -29,4 +30,16 @@ p {
 .data-item {
     margin-top: 16px;
     border-bottom: 1px solid gray;
+}
+
+.full {
+    width: 100%;
+}
+
+.text-center {
+    text-align: center;
+}
+
+table {
+    border: 1px solid black;
 }
