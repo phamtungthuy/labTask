@@ -1,0 +1,47 @@
+div {
+    background-color: aquamarine;
+    border: 1px solid black;
+}
+
+div select {
+    width: 100%;
+    margin-top: 10px;
+    min-height: 30px;
+}
+
+div #btn {
+    min-height: 50px;
+}
+
+#compare tr th:first-child {
+    width: 1%;
+}
+
+#compare tr:first-child {
+    background-color: yellowgreen;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 15px;
+}
+
+table {
+    border-spacing: 30px;
+}
+
+tr:nth-child(even) {
+    background-color: rgba(150, 212, 212, 0.4);
+}
+
+th:nth-child(even),
+td:nth-child(even) {
+    background-color: rgba(150, 212, 212, 0.4);
+}
