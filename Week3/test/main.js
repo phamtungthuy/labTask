@@ -8,7 +8,7 @@ var obj = {
 
     headers: {
         // 'Authorization': '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',
-        Authorization: 'token ' + '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',
+        Authorization: 'token ' + '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',
         'Accept': 'application/json',
         'Content-Type': 'application/json',
 
@@ -55,7 +55,9 @@ function display(releases) {
             <thead>
               <tr>
                 <th scope="col">#</th>
+                <th scope="col">title</th>
                 <th scope="col">message</th>
+                <th scope="col">url</th>
                 <th scope="col">name</th>
                 <th scope="col">date</th>
               </tr>
@@ -70,11 +72,19 @@ function display(releases) {
                     .then(content => {
                         try {
                             console.log(content);
-
+                            let id = 0;
                             return content.commits.map(commit => {
+                                var messageArray = commit.commit.message.trim().split('\n');
+                                var title = messageArray[0];
+                                var body = messageArray.slice(1, messageArray.length).join('\n');
                                 return `<tr>
-                                        <th scope="row">1</th>
-                                        <td>${commit.commit.message.trim()}</td>
+                                        <th scope="row">${++id}</th>
+                                        <td>${title}</td>
+                                        <td>${body}</td>
+                                        <td>
+                                        <a href=${commit.url} class="com-url-api" target="_blank">Commit API</a>
+                                        <a href=${commit.html_url} class="com-url-html" target="_blank">Commit Page</a>
+                                        </td>
                                         <td>${commit.commit.committer.name.trim()}</td>
                                         <td>${commit.commit.committer.date.trim()}</td>
                                         </tr>`;
