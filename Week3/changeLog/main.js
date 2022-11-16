@@ -1,4 +1,4 @@
-var api = 'https://api.github.com/repos/moonlight-stream/moonlight-qt/releases';
+var api = 'https://api.github.com/repos/mastodon/mastodon/releases';
 
 function start() {
     getReleases();
@@ -54,7 +54,6 @@ function getCompares(compareApi) {
         .then(response => response.json())
         .then(result => {
             console.log(result);
-            console.log(result.base_commit);
             displayCompares(result.commits)
         });
     //.then(displayCompares);

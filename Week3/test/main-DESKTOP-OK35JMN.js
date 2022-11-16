@@ -7,7 +7,8 @@ var obj = {
     method: 'GET',
 
     headers: {
-        Authorization: 'token ' + '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',
+        // 'Authorization': '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',
+        Authorization: 'token ' + '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',
         'Accept': 'application/json',
         'Content-Type': 'application/json',
 
@@ -25,10 +26,7 @@ async function handle(linkHtml) {
         await fetch(`${linkApi}/releases?page=${i}`, obj)
             .then(res => res.json())
             .then(objArray => objArray.map(obj => {
-                return {
-                    version: obj.tag_name,
-                    changeLog: obj.body
-                };
+                return obj.tag_name;
             }))
             .then(arr => {
                 if (arr.length == 0 || arr.length < 30) {
@@ -46,29 +44,22 @@ async function handle(linkHtml) {
 function display(releases) {
     var releaseList = [];
     for (let i = 0; i < releases.length - 1; i++) {
-        console.log(linkApi + '/compare/' + releases[i + 1].version + '...' + releases[i].version);
+        console.log(linkApi + '/compare/' + releases[i + 1] + '...' + releases[i]);
         releaseList.push({
-            compare: linkApi + '/compare/' + releases[i + 1].version + '...' + releases[i].version,
-            version: releases[i].version,
-            changeLog: releases[i].changeLog
+            compare: linkApi + '/compare/' + releases[i + 1] + '...' + releases[i],
+            version: releases[i]
         });
     }
-    Promise.all(releaseList.map(async(release, idx) => {
-            var htmls = [`<div class ="row">${release.version}<table class="table table-striped table-dark ">
-            <thead>
-                <tr>
-                    <th scope="col">commits</th>
-                    <th scope="col">changelog</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr><td>
-            <table class="table table-striped table-dark ">
+    Promise.all(releaseList.map(async release => {
+            var htmls = [`<div border = "1">${release.version}<table class="table table-striped table-dark">
             <thead>
               <tr>
                 <th scope="col">#</th>
                 <th scope="col">title</th>
                 <th scope="col">message</th>
+                <th scope="col">url</th>
+                <th scope="col">name</th>
+                <th scope="col">date</th>
               </tr>
             </thead>
             <tbody>`];
@@ -87,12 +78,15 @@ function display(releases) {
                                 var title = messageArray[0];
                                 var body = messageArray.slice(1, messageArray.length).join('\n');
                                 return `<tr>
-                                        <th scope="row">${++id}<br>
-                                        <a href=${commit.url} class="com-url-api" target="_blank">Commit API</a>
-                                        <a href=${commit.html_url} class="com-url-html" target="_blank">Commit Page</a>
-                                        </th>
+                                        <th scope="row">${++id}</th>
                                         <td>${title}</td>
                                         <td>${body}</td>
+                                        <td>
+                                        <a href=${commit.url} class="com-url-api" target="_blank">Commit API</a>
+                                        <a href=${commit.html_url} class="com-url-html" target="_blank">Commit Page</a>
+                                        </td>
+                                        <td>${commit.commit.committer.name.trim()}</td>
+                                        <td>${commit.commit.committer.date.trim()}</td>
                                         </tr>`;
                             }).join('');
                         } catch (e) {
@@ -105,8 +99,7 @@ function display(releases) {
                         return '';
                     })
             })));
-            htmls.push(`</tbody></table></td><td>${release.changeLog.split('\n').join('<br>')}</td></tr></tbody></table></div>`)
-                //htmls.push(`</tbody></table><div style="float:left">${release.changeLog.split('\n').join('<br>')}</div></div>`);
+            htmls.push(`</tbody></table></div>`);
             return htmls;
         }))
         .then(arr => {
