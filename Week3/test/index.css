@@ -76,6 +76,8 @@ tbody {
     /* display: none; */
 }
 
+
+
 #releases div table {
     max-height: 1000px;
     overflow-y: scroll;
